@@ -19,6 +19,11 @@ io.sockets.on('connection', (socket) => {
     console.log('we have a new client: ' + socket.id);
 
 
+    //Listen for a message named 'data' from this client
+    socket.on('data', function(data) {
+        //Data can be numbers, strings, objects
+        console.log("Received: 'data' " + data);
+    });
 
 
     socket.on('disconnect', () => {
