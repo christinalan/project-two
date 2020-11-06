@@ -13,7 +13,7 @@ let osc; //base oscillator
 let button;
 // let modulator; // oscillator will modulate frequency of the base osc
 let playing;
-let freq1, amp1;
+let freq1, amp2;
 
 // let button, val;
 
