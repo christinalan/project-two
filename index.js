@@ -20,10 +20,16 @@ io.sockets.on('connection', (socket) => {
 
 
     //Listen for a message named 'data' from this client
-    socket.on('data', function(data) {
+    socket.on('data', data => {
         //Data can be numbers, strings, objects
-        console.log("Received: 'data' " + data);
+        // console.log("received mouse data " + data);
+
+        io.sockets.emit('data', data);
     });
+
+    // socket.on('bool', playState => {
+    //     console.log(playState);
+    // });
 
 
     socket.on('disconnect', () => {

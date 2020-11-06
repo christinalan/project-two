@@ -13,7 +13,7 @@ let osc; //base oscillator
 let button;
 // let modulator; // oscillator will modulate frequency of the base osc
 let playing;
-let freq1, amp2;
+let freq, amp;
 
 // let button, val;
 
@@ -21,40 +21,47 @@ function setup() {
     cnv = createCanvas(windowWidth, windowHeight);
     cnv.mousePressed(playOscillator);
     background('lightblue');
-    
 
-    osc = new p5.Oscillator('triangle');
+    osc = new p5.Oscillator('sin');
+
+    //listen for messages from the server
+    socket.on('data', function(obj) {
+        console.log(obj);
+
+        playOscillator(obj);
+        osc.amp(obj.amp)
+        osc.freq(obj.freq);
+        drawPos(obj);
+    })
 
 }
-function playOscillator() {
+
+function playOscillator(freq, amp) {
     osc.start();
-    osc.amp(amp1);
-    // start at 700Hz
-    osc.freq(freq1);
-    // ramp to 60Hz over 0.7 seconds
-    osc.freq(60, 5);
-    osc.amp(0, 0.1, 0.2);
+    freq = constrain(map(mouseX, 0, width, 50,700), 50,700);
+    amp = constrain(map(mouseY, height, 0, 0, 1), 0, 1);
 }
 
-function mousePressed () {
+function mouseMoved() {
 
+    if (playing) {
     let data = {
-        x : mouseX,
-        y : mouseY
+        freq : mouseX,
+        amp : mouseY
     }
 
-    ellipse(mouseX,mouseY,20,20);
 
     socket.emit('data', data);
-    
-}
+        }
+
+    }
 
 
   function draw() {
 
 
-    freq1 = constrain(map(mouseX, 0, width, 50,700), 50,700);
-    amp1 = constrain(map(mouseY, height, 0, 0, 1), 0, 1);
+    // freq = constrain(map(mouseX, 0, width, 50,700), 50,700);
+    // amp = constrain(map(mouseY, height, 0, 0, 1), 0, 1);
 
     textSize(16)
     text('Tap to Toggle ', width/2, 43);
@@ -63,6 +70,12 @@ function mousePressed () {
     
     if (mouseIsPressed) {
         playing = !playing;
+
+        // let playState = {
+        //     play : true,
+        // }
+
+        // socket.emit('bool', playState)
     }
 
     if (playing) {
@@ -70,6 +83,9 @@ function mousePressed () {
         button.position(width/2 + 95, 15);
         button.style('background-color', "green");
         
+        osc.amp(amp);
+        osc.freq(freq);
+
      
     } 
     else {
@@ -77,19 +93,13 @@ function mousePressed () {
         button = createButton('Off');
         button.position(width/2 + 95, 15);
         button.style('background-color', "red");
-        // osc.amp(0, 0.5);
+
+        osc.freq(60, 5);
+        osc.amp(0, 0.5);
     }
 }
 
-// function playOscillator() {
-//     osc.start();
-
-// }
-
-
-// let value = 0;
-// function keyPressed() {
-//     if (value === 0) {
-//         console.log("spacebar pressed");
-//     }
-// }
+function drawPos(pos) {
+    fill(0);
+    ellipse(pos.freq, pos.amp, 20, 20);
+  }
