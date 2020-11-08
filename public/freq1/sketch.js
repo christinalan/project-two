@@ -53,30 +53,33 @@ function playOscillator() {
 
 }
 
-function freqFromMouse() {
-    return mouseFreq = map(mouseX, 0, width-1, freq2 * 0.9, freq2 *1.1);
-  }
+function freqFromMouse(freq2) {
+    mouseFreq = map(mouseX, 0, width-1, freq2 * 0.9, freq2 *1.1);
+}
 
 
 
 function mouseClicked() {
     playing = !playing;
 
+    console.log(abs(mouseFreq - freq1).toFixed(2));
 
-    console.log(abs(freqFromMouse() - freq1).toFixed(2));
 }
 
 function mouseMoved() {
 
 
     if (playing) {
-        drawPos();
-
-        osc2.freq(freqFromMouse());
+        drawPos(mouseX, mouseY, freq2);
+        freqFromMouse(freq2);
+        osc2.freq(mouseFreq);
+        console.log(freq2)
+        // osc2.freq(freqFromMouse());
     
         let data = {
                 freq : mouseFreq,
-                // amp : mouseY
+                x : mouseX,
+                y : mouseY
             }
         
             socket.emit('data', data);
@@ -110,7 +113,7 @@ function mouseMoved() {
 
 }
 
-function drawPos() {
+function drawPos(mouseX, mouseY, freq2) {
     noFill();
-    ellipse(mouseX, mouseY, freqFromMouse());
+    ellipse(mouseX, mouseY, freq2);
   }
