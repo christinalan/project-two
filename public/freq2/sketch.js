@@ -73,7 +73,7 @@ function mouseMoved() {
 
     if (playing) {
 
-        // drawPos(data, data, freq2);
+        drawPos(data, data, freq2);
         osc2.freq(mouseFreq);
         console.log(mouseFreq)
         // osc2.freq(freqFromMouse());

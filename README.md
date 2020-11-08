@@ -6,3 +6,11 @@ How does freq1 manipulate the freq of freq2?
 each user has a different random(freq)
 
 the 2nd freq (delayed) gets sent through the socket
+
+one namespace
+
+1. alert to save the name
+2. create JSON file w/ neDB
+3. name and the mouseClicked data gets sent to the server
+4. try scoreboard w/ a button first
+5. visual that contrasts the freq range

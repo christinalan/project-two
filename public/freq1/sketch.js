@@ -12,7 +12,7 @@ let cnv;
 let osc, osc1, osc2; //base oscillator
 let modulator; // oscillator will modulate frequency of the base osc
 let drawing, playing;
-let freq, amp, vol;
+let freq, amp;
 let freq1, freq2;
 let mouseFreq;
 
