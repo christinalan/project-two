@@ -22,3 +22,8 @@ socket.score = socket.score + data.score
 
 CRAIG'S PRIVATE CHAT 
 
+
+
+1. get the object scoreBoard on the client side
+2. create a dom element to show the score?
+

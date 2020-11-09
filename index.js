@@ -4,7 +4,9 @@ let app = express();
 app.use('/', express.static('public'));
 
 let scoreBoard = {}; 
-console.log(scoreBoard);
+
+// console.log(scoreBoard);
+
 //     "id": {
 //     "name": "^4.17.1",
 //     "score": "^2.3.0"
@@ -16,6 +18,8 @@ console.log(scoreBoard);
 //   },
 
 // };
+
+
 //initialize the HTTP server
 let http = require('http');
 let server = http.createServer(app);
@@ -40,18 +44,18 @@ freq1.on('connection', (socket) => {
         console.log(data);
 
         freq2.emit('data', data);
-    })
-})
+    });
+});
 
 freq2.on('connection', (socket) => {
 
     scoreBoard[socket.id]={};
-    console.log(scoreBoard);
+    // console.log(scoreBoard);
 
     //getting username
     socket.on('clientObject', (data)=> {
         scoreBoard[socket.id].name = data.name;
-        console.log(scoreBoard);
+        // console.log(scoreBoard);
     });
 
 
@@ -59,6 +63,6 @@ freq2.on('connection', (socket) => {
     socket.on('score', (data1)=> {
         scoreBoard[socket.id].score = data1.score;
         console.log(scoreBoard);
+        socket.emit('scoreBoard', scoreBoard);
     });
-
 });

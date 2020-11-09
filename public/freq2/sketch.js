@@ -4,8 +4,14 @@ let socket = io('/freq2');
 
 socket.on('connect', () => {
     console.log("connected");
+
+
+
 });
 
+socket.on('scoreBoard', () => {
+    console.log("scoreBoard");
+})
 
 window.addEventListener('load', () => {
 
@@ -78,41 +84,39 @@ function freqFromMouse() {
     return map(mouseX, 0, width-1, freq2 * 0.9, freq2 *1.1);
 }
 
-function mouseClicked() {
-    playing = !playing;
+// function mouseClicked() {
+//     playing = !playing;
 
-    // console.log(abs(freqFromMouse() - freq1).toFixed(2));
+//     // console.log(abs(freqFromMouse() - freq1).toFixed(2));
 
 
-    //sending the score data to the server
-    let score = abs(freqFromMouse() - freq1).toFixed(2);
+//     //sending the score data to the server
+//     let score = abs(freqFromMouse() - freq1).toFixed(2);
 
-    let scoreObject = {
-        "score" : score
-    };
-    socket.emit('score', scoreObject);
+//     let scoreObject = {
+//         "score" : score
+//     };
+//     socket.emit('score', scoreObject);
     
-}
+// }
 
-function mouseMoved() {
+// function mouseMoved() {
 
-    waveform = analyzer.waveform();
+//     waveform = analyzer.waveform();
     
-    osc2.freq(freqFromMouse());
+//     osc2.freq(freqFromMouse());
 
-    if (playing) {
+//     if (playing) {
 
-        osc1.amp(0.5)
-        osc2.amp(0.5)
-        } 
-        else {
+//         osc1.amp(0.5)
+//         osc2.amp(0.5)
+//         } 
+//         else {
         
-        osc1.stop(0.01);
-        osc2.stop(0.01);
-    };
-       
-
-}
+//         osc1.stop(0.01);
+//         osc2.stop(0.01);
+//     };
+// }
 
 
   function draw() {
