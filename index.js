@@ -2,6 +2,35 @@
 let express = require('express');
 let app = express();
 app.use('/', express.static('public'));
+//for neDB
+let bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
+//DB code for good storage
+let Datastore = require('nedb');
+let db = new Datastore('userNames.db');
+db.loadDatabase();
+
+let today = new Date();
+let newDate = today.toDateString();
+
+//adding a route to server that listens to POST request
+app.post('/userNames', (req, res) => {
+    console.log(req.body);
+    let obj = {
+        name: name,
+        date: newDate
+    }
+
+    //insert memory into the userNames database
+    db.insert(obj, (err, newDocs) => {
+        if(err) {
+            res.json({task: "task failed"})
+        } else {
+            res.json({task:"success"});
+        }
+    })
+})
 
 //initialize the HTTP server
 let http = require('http');
@@ -21,8 +50,19 @@ io.sockets.on('connection', (socket) => {
 
 
 
-    socket.on('disconnect', () => {
-        console.log('a client has disconnected: ' + socket.id);
+    
+        console.log(data);
+
+        freq2.emit('data', data);
+    })
+})
+
+freq2.on('connection', (socket) => {
+    console.log('freq2 socket connected : ' + socket.id);
+
+    //getting username
+    socket.on('clientObject', (data)=> {
+        console.log(data) 
     });
 })
 
