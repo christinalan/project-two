@@ -36,7 +36,7 @@ let freq1, freq2;
 let mouseFreq, mouseAmp;
 let button, val;
 let mouseFreq1;
-let analyzer, waveform;
+let analyzer, waveform, freqAnalyzer, waveFreq;
 let clicked;
 let x, y;
 
@@ -58,9 +58,10 @@ function setup() {
     osc2.pan(1);
     
     cnv.mousePressed(playOscillator);
-    background('lightblue');
+    background(0);
 
     analyzer = new p5.FFT();
+    freqAnalyzer = new p5.FFT();
 
     //listen for messages from the server
     // socket.on('data', function(obj) {
@@ -120,7 +121,8 @@ function freqFromMouse() {
 
 
   function draw() {
-
+    noStroke();
+    fill(50);
     textSize(16)
     text('Tap to Toggle ', width/2, 43);
 
@@ -144,9 +146,9 @@ function mouseMoved(event) {
   
     noStroke();
     beginShape();
-    for (let i = 0; i < waveform.length; i+=100) {
-      let x = map(i, 0, waveform.length - 1, 0, width);
-      var y = map(waveform[i], -0.7, 0.7, 0, height);
+    for (let i = 0; i < waveform.length; i+=10) {
+      let x = map(i, 0, waveform.length - 1, 0, windowWidth);
+      var y = map(waveform[i], -0.5, 0.5, 0, windowHeight);
       let col = map(waveform[i], -1, 1, 0, 255)
   
       // stroke(0, 0, i);
@@ -172,37 +174,51 @@ function mouseMoved(event) {
      };
      socket.emit('score', scoreObject);
 
-
+    playing = !playing;
     clicked = !clicked;
     
     if (clicked) {
+      osc1.start();
+      osc2.start();
+    } else {
       osc1.stop();
        osc2.stop();
-    } else {
-      osc1.start();
-       osc2.start();
     }
     waveform = analyzer.waveform();
+    waveFreq = freqAnalyzer.analyze();
   
     // draw the shape of the waveform
+    push();
+    colorMode(HSL);
     beginShape();
-     stroke(255);
+    //  stroke(255);
     strokeWeight(5);
     noFill();
-    for (let i = 0; i < waveform.length; i++) {
-      let x = map(i, 0, waveform.length, 0, width);
-      let y = map(waveform[i], -1, 1, -height / 2, height / 2);
+    for (let i = 0; i < waveFreq.length; i++) {
+      let angle = map(i, 0, waveFreq.length, 0, 360);
+      let amp = waveFreq[i];
+      let r = map(amp, 0, 128, 0, 400);
+      let x = r * cos(angle);
+      let y = r * sin(angle);
+
+      // stroke(200, 255, i);
+      stroke(255);
+      line(width/2, height/2, x, y);
       vertex(x, y + height / 2);
+      vertex(x +width/2, y);
+
+      // let x = map(i, 0, waveFreq.length, 0, width);
+      // let y = map(waveFreq[i], -1, 1, -height / 4, height / 4);
+      // vertex(x, y + height / 2);
     }
     endShape();
-     if (waveform.length > width) {
-      waveform.splice(0, 1);
-    }
+    pop();
+
   }
   
   
   function drawArt() {
-      mouseFreq1 = freqFromMouse();
+    mouseFreq1 = freqFromMouse();
     console.log(mouseFreq);
     noFill();
     let strokeColor = map(mouseFreq, 100, 800, 0, 255);
