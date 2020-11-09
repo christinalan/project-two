@@ -3,6 +3,19 @@ let express = require('express');
 let app = express();
 app.use('/', express.static('public'));
 
+let scoreBoard = {}; 
+console.log(scoreBoard);
+//     "id": {
+//     "name": "^4.17.1",
+//     "score": "^2.3.0"
+//   },
+
+//   "id": {
+//     "name": "^4.17.1",
+//     "score": "^2.3.0"
+//   },
+
+// };
 //initialize the HTTP server
 let http = require('http');
 let server = http.createServer(app);
@@ -31,14 +44,21 @@ freq1.on('connection', (socket) => {
 })
 
 freq2.on('connection', (socket) => {
-    console.log('freq2 socket connected : ' + socket.id);
+
+    scoreBoard[socket.id]={};
+    console.log(scoreBoard);
 
     //getting username
-    socket.on('clientObject', (data)=> {console.log(data) 
+    socket.on('clientObject', (data)=> {
+        scoreBoard[socket.id].name = data.name;
+        console.log(scoreBoard);
     });
 
 
     //getting score
-    socket.on('score', (data)=> {console.log(data)
+    socket.on('score', (data1)=> {
+        scoreBoard[socket.id].score = data1.score;
+        console.log(scoreBoard);
     });
+
 });
