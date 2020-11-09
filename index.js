@@ -17,6 +17,7 @@ let io = require('socket.io').listen(server);
 let freq1 = io.of('/freq1');
 let freq2 = io.of('/freq2');
 
+
 freq1.on('connection', (socket) => {
     console.log('freq1 socket connected : ' + socket.id);
 
@@ -30,5 +31,14 @@ freq1.on('connection', (socket) => {
 })
 
 freq2.on('connection', (socket) => {
-    console.log('freq1 socket connected : ' + socket.id);
-})
+    console.log('freq2 socket connected : ' + socket.id);
+
+    //getting username
+    socket.on('clientObject', (data)=> {console.log(data) 
+    });
+
+
+    //getting score
+    socket.on('score', (data)=> {console.log(data)
+    });
+});

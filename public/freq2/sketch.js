@@ -7,8 +7,19 @@ socket.on('connect', () => {
 });
 
 
+window.addEventListener('load', () => {
+
 //alert box 
-var person = window.prompt("enter your name")
+    let clientName = window.prompt("create a username");
+    let clientDate = Date();
+    let clientObject = {
+        "name" : clientName,
+        "date" : clientDate
+    };
+    socket.emit('clientObject', clientObject)
+});
+
+
 
 // global variables
 let cnv;
@@ -20,14 +31,6 @@ let mouseFreq, mouseAmp;
 let button, val;
 
 function setup() {
-
-    socket.on('data', data => {
-        // console.log(data.freq);
-        freq2 = data.freq
-        drawPos(data, data, freq2);
-        // osc2.freq(freq2);
-        freqFromMouse(freq2);
-    })
 
     // oscillators
     osc = new p5.Oscillator('sine');
@@ -73,6 +76,14 @@ function mouseClicked() {
     playing = !playing;
 
     console.log(abs(freqFromMouse() - freq1).toFixed(2));
+
+    let score = abs(freqFromMouse() - freq1).toFixed(2);
+
+    let scoreObject = {
+    "score" : score
+    }
+    socket.emit('score', scoreObject);
+    
 }
 
 function mouseMoved() {
