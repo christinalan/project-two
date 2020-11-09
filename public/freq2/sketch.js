@@ -30,7 +30,7 @@ let freq1, freq2;
 let mouseFreq, mouseAmp;
 let button, val;
 let mouseFreq1;
-let analyzer, waveform;
+let analyzer, waveform, freqAnalyzer, waveFreq;
 let clicked;
 let x, y;
 
@@ -55,6 +55,7 @@ function setup() {
     background(0);
 
     analyzer = new p5.FFT();
+    freqAnalyzer = new p5.FFT();
 
     //listen for messages from the server
     // socket.on('data', function(obj) {
@@ -169,7 +170,7 @@ function mouseMoved(event) {
      };
      socket.emit('score', scoreObject);
 
-     playing = !playing;
+    playing = !playing;
     clicked = !clicked;
     
     if (clicked) {
@@ -180,26 +181,40 @@ function mouseMoved(event) {
        osc2.stop();
     }
     waveform = analyzer.waveform();
+    waveFreq = freqAnalyzer.analyze();
   
     // draw the shape of the waveform
+    push();
+    colorMode(HSL);
     beginShape();
-     stroke(255);
+    //  stroke(255);
     strokeWeight(5);
     noFill();
-    for (let i = 0; i < waveform.length; i++) {
-      let x = map(i, 0, waveform.length, 0, width);
-      let y = map(waveform[i], -1, 1, -height / 4, height / 4);
+    for (let i = 0; i < waveFreq.length; i++) {
+      let angle = map(i, 0, waveFreq.length, 0, 360);
+      let amp = waveFreq[i];
+      let r = map(amp, 0, 128, 0, 400);
+      let x = r * cos(angle);
+      let y = r * sin(angle);
+
+      // stroke(200, 255, i);
+      stroke(255);
+      line(width/2, height/2, x, y);
       vertex(x, y + height / 2);
+      vertex(x +width/2, y);
+
+      // let x = map(i, 0, waveFreq.length, 0, width);
+      // let y = map(waveFreq[i], -1, 1, -height / 4, height / 4);
+      // vertex(x, y + height / 2);
     }
     endShape();
-     if (waveform.length > width) {
-      waveform.splice(0, 1);
-    }
+    pop();
+
   }
   
   
   function drawArt() {
-      mouseFreq1 = freqFromMouse();
+    mouseFreq1 = freqFromMouse();
     console.log(mouseFreq);
     noFill();
     let strokeColor = map(mouseFreq, 100, 800, 0, 255);
