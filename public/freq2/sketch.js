@@ -52,7 +52,7 @@ function setup() {
     osc2.pan(1);
     
     cnv.mousePressed(playOscillator);
-    background('lightblue');
+    background(0);
 
     analyzer = new p5.FFT();
 
@@ -116,7 +116,8 @@ function mouseMoved() {
 
 
   function draw() {
-
+    noStroke();
+    fill(50);
     textSize(16)
     text('Tap to Toggle ', width/2, 43);
 
@@ -140,9 +141,9 @@ function mouseMoved(event) {
   
     noStroke();
     beginShape();
-    for (let i = 0; i < waveform.length; i+=100) {
-      let x = map(i, 0, waveform.length - 1, 0, width);
-      var y = map(waveform[i], -0.7, 0.7, 0, height);
+    for (let i = 0; i < waveform.length; i+=10) {
+      let x = map(i, 0, waveform.length - 1, 0, windowWidth);
+      var y = map(waveform[i], -0.5, 0.5, 0, windowHeight);
       let col = map(waveform[i], -1, 1, 0, 255)
   
       // stroke(0, 0, i);
@@ -168,15 +169,15 @@ function mouseMoved(event) {
      };
      socket.emit('score', scoreObject);
 
-
+     playing = !playing;
     clicked = !clicked;
     
     if (clicked) {
+      osc1.start();
+      osc2.start();
+    } else {
       osc1.stop();
        osc2.stop();
-    } else {
-      osc1.start();
-       osc2.start();
     }
     waveform = analyzer.waveform();
   
@@ -187,7 +188,7 @@ function mouseMoved(event) {
     noFill();
     for (let i = 0; i < waveform.length; i++) {
       let x = map(i, 0, waveform.length, 0, width);
-      let y = map(waveform[i], -1, 1, -height / 2, height / 2);
+      let y = map(waveform[i], -1, 1, -height / 4, height / 4);
       vertex(x, y + height / 2);
     }
     endShape();
