@@ -31,11 +31,11 @@ window.addEventListener('load', () => {
       osc1.start(0.5);
       osc2.start(1.5);
       toggleButton.style.background = "green";
-      toggleButton.innerHTML = "On";
+      toggleButton.innerHTML = "Start";
     } else {
       osc1.stop(1);
       osc2.stop(1);
-      toggleButton.innerHTML = "Off";
+      toggleButton.innerHTML = "Stop";
       toggleButton.style.background = "red";
     };
   });
@@ -115,23 +115,15 @@ function setup() {
 
 }
 
-// function playOscillator() {
-//     osc1.start();
-//     osc2.start(1);
-// }
-
 function freqFromMouse() {
     return map(mouseX, 0, width-1, freq2 * 0.9, freq2 *1.1);
-}
-
-function draw() {
 }
 
 function mouseMoved(event) {
     osc2.freq(freqFromMouse());
   
     waveform = analyzer.waveform();
-  
+    
     noStroke();
     beginShape();
     for (let i = 0; i < waveform.length; i+=10) {
@@ -160,6 +152,7 @@ function mouseMoved(event) {
     waveFreq = freqAnalyzer.analyze();
   
     // draw the shape of the waveform
+    if (playing) {
     push();
     colorMode(HSL);
     beginShape();
@@ -185,6 +178,7 @@ function mouseMoved(event) {
     }
     endShape();
     pop();
+  }
 
   }
   
