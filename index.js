@@ -50,8 +50,10 @@ freq2.on('connection', (socket) => {
         console.log(data);
     });
 
-    socket.on('msgObj', (data)=>{
+    socket.on('msg', (data)=>{
         console.log(data);
+
+        freq2.emit('msg', data);
     });
 });
 

@@ -10,16 +10,18 @@ let score;
 let clientName;
 let clientDate;
 let playing;
-
-  //sending username to the server
+let nameInput;
+let sendButton;
+let curName;
 
 window.addEventListener('load', () => {
-  //alert box, emitting username to the server
-  clientName = window.prompt("create a username");
-  clientDate = Date();
+//   //alert box, emitting username to the server
+//   clientName = window.prompt("create a username");
+//   clientDate = Date();
 
-  let nameInput = document.getElementById('uname');
-  let sendButton = document.getElementById('send-name');
+  nameInput = document.getElementById('uname');
+  curName = nameInput.value;
+  sendButton = document.getElementById('send-name');
   let toggleButton = document.getElementById("play-button");
 
   toggleButton.addEventListener("click", () => {
@@ -38,9 +40,9 @@ window.addEventListener('load', () => {
     };
   });
 
-
+//sending username to the server
 sendButton.addEventListener("click", () => {
-  let curName = nameInput.value;
+  curName = nameInput.value;
   let msgObj = { "name": curName};
   socket.emit('msg', msgObj);
 });
@@ -51,7 +53,7 @@ sendButton.addEventListener("click", () => {
   scoreButton.addEventListener("click", () => {
     //sends the score data to the server first
     let clientObject = {
-      "name" : clientName,
+      "name" : curName,
       "date" : clientDate,
       "score" : score
     };
@@ -70,10 +72,16 @@ sendButton.addEventListener("click", () => {
 
       //add this element to the page
       scoreBoardBox.appendChild(msgEl);
-      })
+      });
 
     });
+    socket.on('msg', (data) => {
+      console.log(data);
+    })
+    
 });
+
+
 
 // global variables for p5 Sketch
 let cnv;

@@ -11,19 +11,7 @@ canvas {
 }
 
 
-.top-container {
-  display: flex;
-  z-index: 0;
-  background-color: orange;
-  float: right;
-  margin-right: 20px;
-  margin-top: 15px;
-  padding: 10px;
-  cursor: zoom-in;
-  border-radius: 40px;
-  font-family: monospace;
-  font-weight: bold;
-}
+
 
 .score-button {
   display: flex;
@@ -44,15 +32,15 @@ canvas {
   position: absolute;
   color: white;
   z-index: 0;
-  text-align: center;
-  margin-left: 30px;
+  /* text-align: center; */
+  /* margin-left: 30px; */
 }
 
 .play-button {
-  margin-top: 15px;
-  margin-left: 150px;
+  display: flex;
+  margin-top: 20px;
+  transform: translateX(550px);
   cursor: pointer;
-  text-align: center;
   background-color: red;
   border-radius: 30px;
   font-family: monospace;
