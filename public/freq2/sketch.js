@@ -22,6 +22,7 @@ window.addEventListener('load', () => {
   nameInput = document.getElementById('uname');
   curName = nameInput.value;
   sendButton = document.getElementById('send-name');
+  
   let toggleButton = document.getElementById("play-button");
 
   toggleButton.addEventListener("click", () => {
