@@ -11,28 +11,40 @@ let clientName;
 let clientDate;
 let playing;
 
+  //sending username to the server
+
 window.addEventListener('load', () => {
   //alert box, emitting username to the server
   clientName = window.prompt("create a username");
   clientDate = Date();
 
+  let nameInput = document.getElementById('uname');
+  let sendButton = document.getElementById('send-name');
   let toggleButton = document.getElementById("play-button");
+
   toggleButton.addEventListener("click", () => {
     playing = !playing;
 
     if (playing) {
-      osc1.start();
-      osc2.start(1);
+      osc1.start(0.5);
+      osc2.start(1.5);
       toggleButton.style.background = "green";
       toggleButton.innerHTML = "On";
     } else {
-      osc1.stop();
-      osc2.stop();
+      osc1.stop(1);
+      osc2.stop(1);
       toggleButton.innerHTML = "Off";
       toggleButton.style.background = "red";
-    }
-  })
+    };
+  });
 
+
+sendButton.addEventListener("click", () => {
+  let curName = nameInput.value;
+  let msgObj = { "name": curName};
+  socket.emit('msg', msgObj);
+});
+  
   //ScoreButton receives the scoreboard data from the server
   let scoreButton = document.getElementById("score-button");
 
@@ -167,7 +179,6 @@ function mouseMoved(event) {
     pop();
 
   }
-  
   
   function drawArt() {
     mouseFreq = freqFromMouse();

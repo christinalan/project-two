@@ -7,9 +7,13 @@
     <title>Frequency</title>
   </head>
   <body>
-    <h3 class="toggle">Tap To Toggle</h3>
-    <button id="play-button" class="play-button">Off</button>
-    <button id="score-button" class="score-button">Get Scores</button>
+    <div id="top-container">
+      <input type="text" id="uname" name="fname" value="username">
+      <button id="send-name" class="send-name">send</button>
+      <h3 class="toggle">Tap To Toggle</h3>
+      <button id="play-button" class="play-button">Off</button>
+      <button id="score-button" class="score-button">Get Scores</button>
+    </div>
     <div id="score" class="score"></div>
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script> -->

@@ -49,6 +49,10 @@ freq2.on('connection', (socket) => {
         freq2.emit('scoreBoard', data);
         console.log(data);
     });
+
+    socket.on('msgObj', (data)=>{
+        console.log(data);
+    });
 });
 
 
