@@ -6,8 +6,8 @@ app.use('/', express.static('public'));
 //initialize the HTTP server
 let http = require('http');
 let server = http.createServer(app);
-let port = process.env.PORT || 5000;
-app.listen(port, () => {
+let port = process.env.PORT || 3000;
+server.listen(port, () => {
     console.log("server is listening at port: " + port);
 });
 
@@ -84,6 +84,9 @@ freq2.on('connection', (socket) => {
         // }
 
         socket.emit('scoreBoard', scoreBoard);
+
+        socket.emit('scoreBoard', data);
+        console.log(data);
         // freq2.emit('scoreBoard', scoreBoard);
         
         // mod.emit('scoreBoard', scoreBoard);
