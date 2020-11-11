@@ -20,6 +20,7 @@ let freq2 = io.of('/freq2');
 
 let allBoard = [];
 let frequencies = [];
+let artData = [];
 
 //listening for users to connect
 mod.on('connection', (socket) => {
@@ -43,6 +44,13 @@ mod.on('connection', (socket) => {
         allBoard.push(data);
 
         mod.emit('modBoard', allBoard);
+    })
+
+    socket.on('artData', data => {
+        // console.log(data);
+        artData.push(data);
+        console.log(artData);
+        mod.emit('artData', artData);
     })
 });
 

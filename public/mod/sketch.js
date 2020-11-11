@@ -15,6 +15,8 @@ let modulator; // oscillator will modulate frequency of the base osc
 let playing, freq, amp;
 let osc1, osc2, freq1, freq2;
 let newplay;
+let freqAnalyzer;
+let x, y;
 
 window.addEventListener('load', () => {
     
@@ -94,6 +96,7 @@ function setup() {
     osc = new p5.Oscillator('triangle');
     osc1 = new p5.Oscillator();
     osc2 = new p5.Oscillator();
+    freqAnalyzer = new p5.FFT();
 
     socket.on('modFreq', (data) => {
         // console.log(data)
@@ -101,16 +104,38 @@ function setup() {
             freq1 = data[i].osc1.f;
             freq2 = data[i].osc2.f;
         }
-
     })
+
 }
 
 
-
-
-let value = 0;
-function keyPressed() {
-    if (value === 0) {
-        console.log("spacebar pressed");
-    }
-}
+// function draw() {
+//     socket.on('artData', (data) => {
+//         for (let i = 0; i < data.length; i++) {
+//             x = data[i].x;
+//             y = data[i].y;
+//         }
+//     })
+//     waveFreq = freqAnalyzer.analyze();
+//     beginShape();
+//     strokeWeight(5);
+//     noFill();
+//       for (let i = 0; i < waveFreq.length; i++) {
+//         // let angle = map(i, 0, waveFreq.length, 0, 360);
+//         let amp = waveFreq[i];
+//         // let r = map(amp, 0, 128, 0, 400);
+//         // let x = r * cos(angle);
+//         // let y = r * sin(angle);
+//         let col = map(i, 0, waveFreq.length, 0, 255);
+  
+//         if (amp != 0) {
+//         // stroke(200, 255, i);
+//         stroke(constrain(col, 100, 255), 255, 125, 150);
+//         line(width/2, height/2, x, y);
+//         vertex(x, y + height / 2);
+//         vertex(x +width/2, y);
+//         ellipse(x, y, amp);
+//         }
+//       }
+//       endShape();
+// }

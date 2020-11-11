@@ -14,14 +14,16 @@ modSocket.on('connect', () => {
 let score;
 let clientName;
 let clientDate;
-let playing;
+let playing, clicked;
+let p5playing;
 let nameInput;
 let sendButton;
 let curName;
+let toggleButton;
 
 window.addEventListener('load', () => {
   //start the oscillators
-  let toggleButton = document.getElementById("play-button");
+  toggleButton = document.getElementById("play-button");
   toggleButton.addEventListener("click", () => {
     playing = !playing;
 
@@ -37,14 +39,6 @@ window.addEventListener('load', () => {
       toggleButton.style.background = "red";
     }
     })
-
-  //spacebar to toggle sound
-  document.body.onkeyup = function (e) {
-    if (e.keyCod == 32) {
-      playing = !playing;
-      e.preventDefault();
-    } 
-  }
 
   nameInput = document.getElementById('uname');
   sendButton = document.getElementById('send-name');
@@ -132,6 +126,7 @@ function setup() {
     osc1.freq(freq1);
     osc2.freq(freq2);
     osc2.pan(1);
+
     
     // cnv.mousePressed(playOscillator);
     background(0);
@@ -142,9 +137,6 @@ function setup() {
 
 function freqFromMouse() {
     return map(mouseX, 0, width-1, freq2 * 0.9, freq2 *1.1);
-}
-
-function draw() {
 }
 
 function mouseMoved(event) {
@@ -177,42 +169,63 @@ function mouseMoved(event) {
   }
   
   function mouseClicked(event) {
+    clicked = !clicked;
     score = abs(freqFromMouse() - freq1).toFixed(2);
     console.log(score);
 
     waveform = analyzer.waveform();
     waveFreq = freqAnalyzer.analyze();
-  
+    
     // draw the shape of the waveform
     push();
-    colorMode(HSL);
     beginShape();
-    //  stroke(255);
     strokeWeight(5);
     noFill();
-    for (let i = 0; i < waveFreq.length; i++) {
-      let angle = map(i, 0, waveFreq.length, 0, 360);
-      let amp = waveFreq[i];
-      let r = map(amp, 0, 128, 0, 400);
-      let x = r * cos(angle);
-      let y = r * sin(angle);
+      for (let i = 0; i < waveFreq.length; i++) {
+        let angle = map(i, 0, waveFreq.length, 0, 360);
+        let amp = waveFreq[i];
+        let r = map(amp, 0, 128, 0, 400);
+        let x = r * cos(angle);
+        let y = r * sin(angle);
+        let col = map(i, 0, waveFreq.length, 0, 255);
+  
+        // stroke(200, 255, i);
+        if (amp != 0) {
+          stroke(constrain(col, 100, 255), random(255), 155);
+          line(width/2, height/2, x, y);
+          vertex(x, y + height / 2);
+          vertex(x +width/2, y);
 
-      // stroke(200, 255, i);
-      if (amp != 0) {
-        stroke(255);
-        line(width/2, height/2, x, y);
-        vertex(x, y + height / 2);
-        vertex(x +width/2, y);
+          let artData = {
+            x: x,
+            y: y
+          }
+          modSocket.emit('artData', artData)
+        }
       }
-
-      // let x = map(i, 0, waveFreq.length, 0, width);
-      // let y = map(waveFreq[i], -1, 1, -height / 4, height / 4);
-      // vertex(x, y + height / 2);
-    }
-    endShape();
-    pop();
+      endShape();
+      pop();
+  
 
     return false;
+  }
+
+  function keyPressed() {
+    if (keyCode === 32) {
+      playing = !playing
+  
+      if (playing) {
+        osc1.start();
+        osc2.start(1);
+        toggleButton.style.background = "green";
+        toggleButton.innerHTML = "On";
+      } else {
+        osc1.stop();
+        osc2.stop();
+        toggleButton.innerHTML = "Off";
+        toggleButton.style.background = "red";
+      }
+    }
   }
 
   function drawArt() {
