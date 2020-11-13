@@ -65,7 +65,6 @@ window.addEventListener('load', () => {
       "score" : score
     };
     socket.emit('clientObject', clientObject)
-    // modSocket.emit('clientObject', clientObject)
 
     //listen for data from the server
     socket.on('scoreBoard', (data) => {
@@ -106,14 +105,12 @@ function setup() {
     })
 
     // oscillators
-    osc = new p5.Oscillator('sine');
     osc1 = new p5.Oscillator('sine');
     osc2 = new p5.Oscillator('sine');
 
     cnv = createCanvas(windowWidth, windowHeight);
     
     freq1 = random(100, 500);
-    // console.log(freq1);
     freq2 = freq1 * random(0.9,1.1);
     osc1.pan(-1);
     osc1.freq(freq1);
@@ -216,13 +213,3 @@ function mouseMoved(event) {
     }
   }
 
-  function drawArt() {
-    mouseFreq = freqFromMouse();
-    console.log(mouseFreq);
-    noFill();
-    let strokeColor = map(mouseFreq, 100, 800, 0, 255);
-    let size = map(mouseFreq, 100, 800, 0, 400);
-    // console.log(strokeColor);
-    stroke(strokeColor, strokeColor, strokeColor);
-    ellipse(width/2, height/2, size);   
-  }

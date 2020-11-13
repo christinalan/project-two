@@ -39,13 +39,6 @@ mod.on('connection', (socket) => {
         mod.emit('modFreq', frequencies)
     })
 
-    // socket.on('clientObject', data => {
-    //     console.log(data);
-    //     allBoard.push(data);
-
-    //     mod.emit('modBoard', allBoard);
-    // })
-
 });
 
 let scoreBoard = []; 
