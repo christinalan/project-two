@@ -28,7 +28,7 @@ let infoButton = document.getElementById("info-button");
 let span = document.getElementsByClassName("close")[0];
 
 window.addEventListener('load', () => {
-  //instructions window
+//instructions window
  infoButton.onclick = function() {
    modal.style.display = "block";
  }
