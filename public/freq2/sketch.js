@@ -21,7 +21,28 @@ let sendButton;
 let curName;
 let toggleButton;
 
+//variables for the Instructions window
+let modal = document.getElementById("info-modal");
+let infoButton = document.getElementById("info-button");
+//span that closes the window
+let span = document.getElementsByClassName("close")[0];
+
 window.addEventListener('load', () => {
+  //instructions window
+ infoButton.onclick = function() {
+   modal.style.display = "block";
+ }
+
+ span.onclick = function() {
+   modal.style.display = "none";
+ }
+
+ window.onclick = function(event) {
+   if (event.target == modal) {
+     modal.style.display = "none";
+   }
+ }
+
   //start the oscillators
   toggleButton = document.getElementById("play-button");
   toggleButton.addEventListener("click", () => {

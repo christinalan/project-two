@@ -8,17 +8,35 @@
   </head>
   <body>
     <div id="top-container">
-      <h3>
-        Line up the frequencies you hear with your mouse. Click the canvas once
-        you've found a match. Submit your score by clicking "Submit Score"
-        before clicking anything else.
-        <i>*Toggle the sound with the spacebar*</i>
-      </h3>
+      <button id="info-button" class="button info-button">Instructions</button>
+      <!-- the modal itself -->
+      <div id="info-modal" class="modal">
+        <!-- modal content -->
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <p>
+            This is a pitch matching game, where each player hears two
+            oscillators, starting at different times and different frequencies.
+            Moving your mouse will change the frequency of the second
+            oscillator: the goal is to click as close as possible to the static
+            oscillator. Please enter a username. Then, start by clicking on the
+            “Start” button, which will create an oscillator with a random
+            frequency on the left side of your speakers. One second later, a
+            second oscillator will play, with a frequency that is 10% higher or
+            lower than the frequency on the left side. Click the screen once
+            you’ve settled on a position that closely matches the two
+            frequencies. Please submit your score to the server. The score that
+            is closest to zero is the winner!
+          </p>
+        </div>
+      </div>
       <input type="text" id="uname" name="fname" placeholder="username" />
       <button id="send-name" class="send-name">send</button>
       <!-- <p class="toggle">Tap To Toggle</p> -->
-      <button id="play-button" class="play-button">Start</button>
-      <button id="score-button" class="score-button">Submit Score</button>
+      <button id="play-button" class="button play-button">Start</button>
+      <button id="score-button" class="button score-button">
+        Submit Score
+      </button>
     </div>
     <div id="score" class="score"></div>
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
