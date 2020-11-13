@@ -65,29 +65,22 @@ window.addEventListener('load', () => {
       "score" : score
     };
     socket.emit('clientObject', clientObject)
-    modSocket.emit('clientObject', clientObject)
+    // modSocket.emit('clientObject', clientObject)
 
     //listen for data from the server
     socket.on('scoreBoard', (data) => {
-      // console.log(data);
+      console.log(data);
 
       let scoreBoardBox = document.getElementById('score');
 
-      // for (let i = 0; i < data.length; i++) {
-        receivedMsg = data.name + ": " + data.score;
-        // msgEl = document.createElement('p');
+      for (let i = 0; i < data.length; i++) {
+        receivedMsg = data[i].name + ": " + data[i].score;
         msgEl.innerHTML = receivedMsg;
   
         //add this element to the page
         scoreBoardBox.appendChild(msgEl);
-      // }
+      }
 
-      // let receivedMsg = data[i].name + ": " + data[i].score;
-      // let receivedMsg = data[socket.id].name + ": " + data[socket.id].score
-      // let msgEl = document.createElement('p');
-      // msgEl.innerHTML = receivedMsg;
-      // //add this element to the page
-      // scoreBoardBox.appendChild(msgEl);
       });
 
     });
@@ -196,11 +189,6 @@ function mouseMoved(event) {
           vertex(x, y + height / 2);
           vertex(x +width/2, y);
 
-          let artData = {
-            x: x,
-            y: y
-          }
-          modSocket.emit('artData', artData)
         }
       }
       endShape();

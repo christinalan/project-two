@@ -48,9 +48,10 @@ window.addEventListener('load', () => {
 
         //listen for data from the server
         scoreButton.addEventListener("click", () => {
-            socket.on('modBoard', (data) => {
+            
+            socket.on('scoreBoard', (data) => {
                 let scoreBoardBox = document.getElementById('score');
-    
+                
                 for (let i = 0; i< data.length; i++) {
                     let receivedMsg = data[i].name + ": " + data[i].score;
                     let msgEl = document.createElement('p');
@@ -90,7 +91,6 @@ window.addEventListener('load', () => {
 
 function setup() {
     cnv = createCanvas(windowWidth, windowHeight);
-    // cnv.mousePressed(playOscillator);
     background('pink');
 
     osc = new p5.Oscillator('triangle');
@@ -107,35 +107,3 @@ function setup() {
     })
 
 }
-
-
-// function draw() {
-//     socket.on('artData', (data) => {
-//         for (let i = 0; i < data.length; i++) {
-//             x = data[i].x;
-//             y = data[i].y;
-//         }
-//     })
-//     waveFreq = freqAnalyzer.analyze();
-//     beginShape();
-//     strokeWeight(5);
-//     noFill();
-//       for (let i = 0; i < waveFreq.length; i++) {
-//         // let angle = map(i, 0, waveFreq.length, 0, 360);
-//         let amp = waveFreq[i];
-//         // let r = map(amp, 0, 128, 0, 400);
-//         // let x = r * cos(angle);
-//         // let y = r * sin(angle);
-//         let col = map(i, 0, waveFreq.length, 0, 255);
-  
-//         if (amp != 0) {
-//         // stroke(200, 255, i);
-//         stroke(constrain(col, 100, 255), 255, 125, 150);
-//         line(width/2, height/2, x, y);
-//         vertex(x, y + height / 2);
-//         vertex(x +width/2, y);
-//         ellipse(x, y, amp);
-//         }
-//       }
-//       endShape();
-// }
